@@ -1,0 +1,8 @@
+{
+    "KPlugin": {
+        "Description": "SmartChatServer",
+        "Name": "SmartChatServer"
+    },
+    "X-KDevelop-Category": "Global",
+    "X-KDevelop-Mode": "GUI"
+}
