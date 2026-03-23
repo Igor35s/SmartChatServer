@@ -1,30 +1,24 @@
-cmake_minimum_required(VERSION 3.16)
-
+cmake_minimum_required(VERSION 3.10)
 project(SmartChatServer)
 
-set(KF_MIN_VERSION "6.0.0")
+set(CMAKE_CXX_STANDARD 17)
 
-find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+# Ищем Boost (теперь он его НАЙДЕТ в системе Fedora)
+find_package(Boost REQUIRED COMPONENTS system thread)
 
-include(KDEInstallDirs)
-include(KDECMakeSettings)
-include(KDECompilerSettings NO_POLICY_SCOPE)
-include(ECMQtDeclareLoggingCategory)
-include(FeatureSummary)
+add_executable(SmartChatServer src/smartchatserver.cpp Protocol.h)
 
-find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
-    I18n
+# Подключаем пути автоматически
+target_include_directories(SmartChatServer PRIVATE
+    ${Boost_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-find_package(KDevPlatform 6.0 REQUIRED)
-
-add_subdirectory(src)
-
-ecm_qt_install_logging_categories(
-    EXPORT SMARTCHATSERVER
-    FILE smartchatserver.categories
-    DESTINATION "${KDE_INSTALL_LOGGINGCATEGORIESDIR}"
+# Линкуем (склеиваем) библиотеки
+target_link_libraries(SmartChatServer PRIVATE
+    Boost::system
+    Boost::thread
+    pqxx
+    pq
+    pthread
 )
-
-feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

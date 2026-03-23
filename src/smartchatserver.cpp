@@ -1,19 +1,36 @@
-#include "smartchatserver.h"
+#include <iostream>
+#include <boost/asio.hpp>
+#include "../Protocol.h" // Подключаем наш протокол (он уровнем выше)
 
-#include <debug.h>
+using boost::asio::ip::tcp;
 
-#include <KPluginFactory>
+int main() {
+    try {
+        // Главный объект Boost для управления вводом-выводом
+        boost::asio::io_context io_context;
 
-K_PLUGIN_FACTORY_WITH_JSON(SmartChatServerFactory, "smartchatserver.json", registerPlugin<SmartChatServer>(); )
+        // Создаем "приемник" (acceptor), который слушает порт 1234
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 1234));
 
-SmartChatServer::SmartChatServer(QObject* parent, const KPluginMetaData& metaData, const QVariantList& args)
-    : KDevelop::IPlugin(QStringLiteral("smartchatserver"), parent, metaData)
-{
-    Q_UNUSED(args);
+        std::cout << "--- Сервер SmartChat запущен на порту 1234 ---" << std::endl;
+        std::cout << "Ожидание подключений..." << std::endl;
 
-    qCDebug(PLUGIN_SMARTCHATSERVER) << "Hello world, my plugin is loaded!";
+        while (true) {
+            // Создаем пустой сокет для нового клиента
+            tcp::socket socket(io_context);
+
+            // Ждем, пока кто-то подключится (программа замирает здесь до коннекта)
+            acceptor.accept(socket);
+
+            std::cout << "Клиент успешно подключился!" << std::endl;
+
+            // В будущем здесь будет код чтения сообщений и фото
+        }
+
+    } catch (std::exception& e) {
+        // Если что-то пойдет не так (например, порт занят), выведем ошибку
+        std::cerr << "Критическая ошибка сервера: " << e.what() << std::endl;
+    }
+
+    return 0;
 }
-
-// needed for QObject class created from K_PLUGIN_FACTORY_WITH_JSON
-#include "smartchatserver.moc"
-#include "moc_smartchatserver.cpp"
