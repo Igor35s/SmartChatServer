@@ -1,35 +1,26 @@
-# Simple KDevelop Plugin
+# 🚀 SmartChatServer (C++)
 
-## Installation instructions
+Мощный многопоточный сервер для мессенджера, написанный на **C++17**.
 
-Make sure the project is configured to install to the directory of your choice:
+## 🛠 Технологии
+*   **Сетевой движок:** [Boost.Asio](https://www.boost.org) (асинхронная обработка соединений).
+*   **База данных:** [PostgreSQL](https://www.postgresql.org) (хранение пользователей и истории).
+*   **Драйвер БД:** [libpqxx](https://pqxx.org) (C++ клиент для Postgres).
+*   **Система сборки:** [CMake](https://cmake.org) + Ninja.
+*   **ОС:** Fedora Linux.
 
-In KDevelop, select the menu entry "Project" > "Open Configuration...",
-then in the dialog choose the tab "CMake",
-there select in the "Cache Values" list the entry with the name `CMAKE_INSTALL_PREFIX`
-and ensure the correct path is set.
+## 📈 Текущий статус
+- [x] Скелет сервера на Boost.Asio.
+- [x] Протокол обмена данными (PacketHeader).
+- [x] Обработка входящих TCP-соединений (порт 1234).
+- [ ] Интеграция с PostgreSQL (в процессе).
+- [ ] Авторизация пользователей.
 
-If you install to a custom directory, you need to extend the `QT_PLUGIN_PATH`
-environment variable that KDevelop sees when it is started. The path to be added
-is the "plugins" subdir, whose exact path depends on the operating system and
-if that is a 64 bit or 32 bit one.
-On Debian, Ubuntu & similar with a 64 bit system add:
-    $my_install_prefix/lib/x86_64-linux-gnu/plugins
-On openSUSE & similar with a 64 bit system add:
-    $my_install_prefix/lib64/plugins
-(where `$my_install_prefix` is the directory `CMAKE_INSTALL_PREFIX` is set to)
-
-If you are unsure, check in the installation log the path to which the plugin is installed.
-
-
-Example:
-When CMAKE_INSTALL_PREFIX is set to "/home/userX/projects/mykdevplugin/" and
-this is a Debian 64-bit system, open a console and enter:
-
-    export QT_PLUGIN_PATH=$QT_PLUGIN_PATH:/home/userX/projects/mykdevplugin/lib/x86_64-linux-gnu/plugins 
-
-Then start KDevelop from that console:
-
-    kdevelop
-
-If everything went well, you should see "Hello world, my plugin is loaded!" printed in the console and find the plugin also listed in the dialog opened by the menu entry "Help" > "Loaded Plugins".
+## 🚀 Как запустить
+1. Установите зависимости: `boost-devel`, `libpqxx-devel`, `postgresql-server`.
+2. Соберите проект через CMake:
+   ```bash
+   mkdir build && cd build
+   cmake .. -G Ninja
+   ninja
+   ./SmartChatServer
