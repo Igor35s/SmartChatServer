@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/igor/projects/SmartChatServer/build",
+  "command": "/usr/bin/c++ -DBOOST_SYSTEM_DYN_LINK -DBOOST_SYSTEM_NO_LIB -I/home/igor/projects/SmartChatServer -g -std=gnu++17 -o CMakeFiles/SmartChatServer.dir/src/smartchatserver.cpp.o -c /home/igor/projects/SmartChatServer/src/smartchatserver.cpp",
+  "file": "/home/igor/projects/SmartChatServer/src/smartchatserver.cpp",
+  "output": "CMakeFiles/SmartChatServer.dir/src/smartchatserver.cpp.o"
+}
+]

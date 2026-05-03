@@ -3,26 +3,20 @@
 
 #include <cstdint>
 
-// Типы сообщений (ваша отличная наработка)
 enum class MessageType : uint32_t {
-    AuthRequest = 1,
+    RegistrationRequest = 1,
+    AuthRequest = 2,
     TextMessage = 3,
-    ImageMessage = 4
+    SystemNotification = 10
 };
 
-// Заголовок (всегда 8 байт)
 #pragma pack(push, 1)
 struct PacketHeader {
-    MessageType type;  // Тип сообщения
-    uint32_t dataSize; // Размер данных, которые идут следом (в байтах)
-};
-
-// Структура для передачи простого текста (из ТЗ Архитектора)
-struct TextMessagePacket {
-    PacketHeader header;
-    // Данные размером dataSize следуют в потоке TCP сразу за заголовком.
-    // В коде C++ мы читаем их в std::string или массив символов.
-};
+    MessageType type;   // 4 байта: Тип
+    uint32_t sender_id; // 4 байта: Кто шлет (0 для новых)
+    uint32_t target_id; // 4 байта: Кому (0 = всем, >0 = приват)
+    uint32_t dataSize;  // 4 байта: Размер полезной нагрузки
+}; // Итого: 16 байт
 #pragma pack(pop)
 
-#endif // PROTOCOL_H
+#endif

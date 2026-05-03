@@ -1,0 +1,3 @@
+/home/igor/projects/SmartChatServer/build/CMakeFiles/SmartChatServer.dir
+/home/igor/projects/SmartChatServer/build/CMakeFiles/edit_cache.dir
+/home/igor/projects/SmartChatServer/build/CMakeFiles/rebuild_cache.dir
